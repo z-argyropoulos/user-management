@@ -1,5 +1,5 @@
-import managementRoutes from './management';
-import rootRoutes from './root';
+import managementRoutes from './routes/management';
+import rootRoutes from './routes/root';
 
 const routes = [
   {

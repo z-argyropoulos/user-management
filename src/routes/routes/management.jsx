@@ -1,10 +1,11 @@
 import { Suspense, lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 import SuspenseLoading from '@components/loading/SuspenseLoading';
+import Management from '@layouts/Management';
 
 // Wrap component in suspense and display a
-// fallback loading ui while component still
-// fetching
+// fallback loading ui while component (chunk)
+// is still fetching
 const SuspenseComponent = (Component) => (props) => {
   return (
     <Suspense fallback={<SuspenseLoading />}>
@@ -22,6 +23,7 @@ const managementRoutes = [
   { path: '', element: <Navigate to="user-management" replace /> },
   {
     path: 'user-management',
+    element: <Management />,
     children: [
       {
         path: '',
@@ -29,10 +31,16 @@ const managementRoutes = [
       },
       {
         path: ':id',
-        element: <>Manage user with id</>,
+        element: <UserManagement />,
       },
     ],
   },
 ];
 
+const managementPaths = {
+  root: '/management/',
+  userManagement: '/management/user-management',
+};
+
 export default managementRoutes;
+export { managementPaths };
