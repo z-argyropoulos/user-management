@@ -4,9 +4,17 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from 'react-router-dom';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import themes from '@themes/index';
+import ReduxProvider from '@providers/ReduxProvider';
 
 const router = createBrowserRouter(routes);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <RouterProvider router={router} />
+  <ThemeProvider theme={themes.light}>
+    <CssBaseline />
+    <ReduxProvider>
+      <RouterProvider router={router} />
+    </ReduxProvider>
+  </ThemeProvider>
 );
