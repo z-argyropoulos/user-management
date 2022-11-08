@@ -1,10 +1,13 @@
 import UsersList from '@components/UsersList';
+import UserDetails from '@components/UserDetails';
 import {
   Grid as MUIGrid,
   CardContent as MUICardContent,
   styled,
-  Typography,
 } from '@mui/material';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchAllUsers } from '@redux/actions/users';
 
 const CardContent = styled(MUICardContent)({
   height: '100%',
@@ -21,16 +24,26 @@ const Grid = styled(MUIGrid)({
 });
 
 const UserManagement = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // fetch users when component mounts
+    dispatch(fetchAllUsers());
+
+    // TODO: clean up / reset state or abort HTTP request
+    // as it might throw error when switching routes
+    // setting state in component that has been unmounted
+    return () => {};
+  }, []);
+
   return (
     <CardContent>
       <Grid container>
         <Grid item tablet={6}>
           <UsersList />
         </Grid>
-        <Grid item tablet={6}>
-          <Typography align="center" marginTop={4}>
-            Select user to edit
-          </Typography>
+        <Grid item tablet={6} sx={{ flex: 1 }}>
+          <UserDetails />
         </Grid>
       </Grid>
     </CardContent>

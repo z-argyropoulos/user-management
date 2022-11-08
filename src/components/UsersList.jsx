@@ -1,9 +1,11 @@
-import { Box as MUIBox, List as MUIList } from '@mui/material';
+import { List as MUIList, Typography } from '@mui/material';
 import UserOverviewItem from './UserOverviewItem';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import initialUsers from '@models/users';
 import paths from '@routes/paths';
+import { useSelector } from 'react-redux';
+import { selectUsersState } from '@redux/selectors/users';
+import UsersListLoading from './loading/UsersListLoading';
 
 const List = styled(MUIList)({
   height: '100%',
@@ -11,12 +13,18 @@ const List = styled(MUIList)({
   overflowX: 'hidden',
 });
 
-const UsersList = ({ users = initialUsers }) => {
+const UsersList = () => {
   const params = useParams();
+  const { users, loading, error } = useSelector(selectUsersState);
+
+  if (loading) return <UsersListLoading />;
+
+  if (!loading && !!error)
+    return <Typography>Something went wrong</Typography>;
 
   return (
     <List disablePadding>
-      {users.map((user) => (
+      {users?.map((user) => (
         <UserOverviewItem
           key={user.id}
           imgSrc={user.photo}

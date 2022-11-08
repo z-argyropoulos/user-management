@@ -18,7 +18,7 @@ const Card = styled(MUICard)(({ theme }) => ({
   maxWidth: '1200px',
   backgroundColor: 'white',
   [theme.breakpoints.up('tablet')]: {
-    height: '570px',
+    height: '560px',
     margin: '0.5rem 1rem',
   },
 }));

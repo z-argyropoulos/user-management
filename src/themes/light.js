@@ -9,6 +9,9 @@ const lightTheme = mergeThemeWithBase({
     background: {
       default: 'whitesmoke',
     },
+    action: {
+      hover: '#e8e8e8',
+    },
   },
 });
 

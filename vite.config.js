@@ -29,8 +29,20 @@ export default defineConfig({
         replacement: path.resolve(__dirname, './src/pages'),
       },
       {
+        find: '@providers',
+        replacement: path.resolve(__dirname, './src/providers'),
+      },
+      {
+        find: '@redux',
+        replacement: path.resolve(__dirname, './src/redux'),
+      },
+      {
         find: '@routes',
         replacement: path.resolve(__dirname, './src/routes'),
+      },
+      {
+        find: '@services',
+        replacement: path.resolve(__dirname, './src/services'),
       },
       {
         find: '@themes',

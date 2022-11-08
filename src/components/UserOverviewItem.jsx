@@ -16,7 +16,7 @@ const ListItem = styled(MUIListItem)(({ theme, active }) => ({
   width: '100%',
   padding: '0.5rem 1rem',
   '&:hover': {
-    backgroundColor: '#e8e8e8',
+    backgroundColor: theme.palette.action.hover,
   },
 }));
 

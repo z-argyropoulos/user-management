@@ -6,12 +6,15 @@ import {
 } from 'react-router-dom';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import themes from '@themes/index';
+import ReduxProvider from '@providers/ReduxProvider';
 
 const router = createBrowserRouter(routes);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ThemeProvider theme={themes.light}>
     <CssBaseline />
-    <RouterProvider router={router} />
+    <ReduxProvider>
+      <RouterProvider router={router} />
+    </ReduxProvider>
   </ThemeProvider>
 );
