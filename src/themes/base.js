@@ -35,6 +35,15 @@ const baseThemeProperties = {
       fontSize: '0.8rem',
     },
   },
+  components: {
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          height: '40px',
+        },
+      },
+    },
+  },
 };
 
 // A MUI theme generator that takes a theme object
