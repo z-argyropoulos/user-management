@@ -123,7 +123,10 @@ const UserInfoForm = () => {
       ))}
       <ActionButtonsContainer>
         {!isLoading && isEditMode && (
-          <Button color="secondary" onClick={handleClearFields}>
+          <Button
+            color="secondary"
+            onClick={handleClearFields}
+            variant="contained">
             Cancel
           </Button>
         )}

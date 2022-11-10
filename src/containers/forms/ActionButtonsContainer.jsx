@@ -5,7 +5,7 @@ const ButtonsContainer = styled(Box)(({ theme }) => ({
   marginBlockStart: theme.spacing(6),
   display: 'flex',
   justifyContent: 'flex-end',
-  // gap: theme.spacing(1),
+  gap: theme.spacing(1),
 }));
 
 const ActionButtonsContainer = ({ children }) => {
