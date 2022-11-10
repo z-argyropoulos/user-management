@@ -34,12 +34,29 @@ const baseThemeProperties = {
     subtitle1: {
       fontSize: '0.8rem',
     },
+    button: {
+      textTransform: 'none',
+    },
   },
   components: {
     MuiInputBase: {
       styleOverrides: {
         root: {
           height: '40px',
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: 'grey',
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 3,
         },
       },
     },
