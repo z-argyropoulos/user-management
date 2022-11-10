@@ -8,9 +8,8 @@ const RightCardContainer = styled(MUIBox)(({ theme }) => ({
     padding: theme.spacing(4),
   },
   width: '100%',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
+  height: '100%',
+  overflowY: 'auto',
 }));
 
 const UserDetails = () => {
@@ -22,7 +21,9 @@ const UserDetails = () => {
       {!!userId ? (
         <UserInfoForm />
       ) : (
-        <Typography>Select a user to edit</Typography>
+        <Typography textAlign="center">
+          Select a user to edit
+        </Typography>
       )}
     </RightCardContainer>
   );
