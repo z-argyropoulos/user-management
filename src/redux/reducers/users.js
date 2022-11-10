@@ -11,10 +11,6 @@ const usersReducers = {
     state.error = action.payload;
   },
   updateUser: (state, action) => {
-    // reducer to update a user in users list
-    // so their is no need to make another
-    // fetch request for all users to update
-    // the users list state
     const { id, data } = action.payload;
 
     const userIndex = state.users.findIndex((user) => user.id === id);

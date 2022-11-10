@@ -1,5 +1,5 @@
 import { usersSlice } from '@redux/slices/users';
-import { getAllUsers, updateSingleUser } from '@services/users';
+import { getAllUsers } from '@services/users';
 
 // async thunk reducer
 const fetchAllUsers = () => async (dispatch) => {
@@ -17,22 +17,7 @@ const fetchAllUsers = () => async (dispatch) => {
   }
 };
 
-const updateUserData = (userId, userData) => async (dispatch) => {
-  try {
-    // put HTTP request to update user in DB
-    const { data } = await updateSingleUser(userId, userData);
-    // update user in state so that we do not have stale data
-    // or have to fetch all users/user again to get updated data
-    dispatch(updateUser({ id: userId, data }));
-  } catch (error) {
-    console.error(error);
-    dispatch(
-      fetchFailed(error?.response?.data?.message || 'Network error')
-    );
-  }
-};
-
-export { fetchAllUsers, updateUserData };
+export { fetchAllUsers };
 export const {
   startFetching,
   fetchFailed,

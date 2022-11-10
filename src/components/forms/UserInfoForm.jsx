@@ -5,8 +5,10 @@ import TextfieldWithLabel from '@components/shared/TextfieldWithLabel';
 import { useParams } from 'react-router-dom';
 import { selectUserById } from '@redux/selectors/users';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateUserData } from '@redux/actions/users';
+import { updateSingleUser } from '@services/users';
+import { updateUser } from '@redux/actions/users';
 import ActionButtonsContainer from '@containers/forms/ActionButtonsContainer';
+import _ from 'lodash';
 
 const FormContainer = styled(Box)({
   width: '100%',
@@ -46,15 +48,15 @@ const extractUserDataFromForm = (userFormData) =>
   );
 
 const UserInfoForm = () => {
-  const [userForm, setUserForm] = useState(userFormInitialState);
-  const dispatch = useDispatch();
   const { id: userId } = useParams();
   const user = useSelector(selectUserById(userId));
 
-  const setInitialUserForm = () => {
-    const userInfo = mapUserDataToFormFields(user);
-    setUserForm(userInfo);
-  };
+  const dispatch = useDispatch();
+
+  const [form, setForm] = useState(userFormInitialState);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     // when user exists in users state update
@@ -64,44 +66,71 @@ const UserInfoForm = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    // check if there are unsaved changes
+    setIsEditMode(!_.isEqual(form, mapUserDataToFormFields(user)));
+  }, [form]);
+
+  const setInitialUserForm = () => {
+    const userInfo = mapUserDataToFormFields(user);
+    setForm(userInfo);
+  };
+
   const handleFieldChange = (field) => (e) => {
     const value = e.target.value;
 
-    setUserForm((prevForm) => {
+    setForm((prev) => {
       // changed field property
       const delta = {
         [field]: {
-          ...prevForm[field],
+          ...prev[field],
           value,
         },
       };
 
-      return { ...prevForm, ...delta };
+      return { ...prev, ...delta };
     });
   };
 
   const handleClearFields = () => setInitialUserForm();
 
-  const handleSubmitForm = () => {
-    const userData = extractUserDataFromForm(userForm);
-    dispatch(updateUserData(userId, userData));
+  const handleSubmitForm = async () => {
+    const userData = extractUserDataFromForm(form);
+    setIsLoading(true);
+    try {
+      // PUT HTTP request to update user in DB
+      const { data } = await updateSingleUser(userId, userData);
+      setIsLoading(false);
+      // update user in users list state
+      // so that we do not have to make another
+      // GET request to update all users list
+      dispatch(updateUser({ id: userId, data }));
+    } catch (error) {
+      // update form error
+      setError(error?.response?.data?.message || 'Network error');
+    }
   };
 
   return (
     <FormContainer>
-      {Object.entries(userForm).map(([fieldKey, fieldValue]) => (
+      {Object.entries(form).map(([fieldKey, fieldValue]) => (
         <FormField
           key={fieldKey}
-          label={fieldValue?.label}
+          label={fieldValue.label}
           value={fieldValue.value}
           onChange={handleFieldChange(fieldKey)}
         />
       ))}
       <ActionButtonsContainer>
-        <Button color="secondary" onClick={handleClearFields}>
-          Cancel
-        </Button>
-        <Button variant="contained" onClick={handleSubmitForm}>
+        {!isLoading && isEditMode && (
+          <Button color="secondary" onClick={handleClearFields}>
+            Cancel
+          </Button>
+        )}
+        <Button
+          variant="contained"
+          disabled={isLoading || !isEditMode}
+          onClick={handleSubmitForm}>
           Save
         </Button>
       </ActionButtonsContainer>
