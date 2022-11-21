@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const { VITE_APP_EPIGNOSIS_USERS_API: epignosisUsersAPI } =
+const { VITE_APP_USERS_API: usersAPI } =
   import.meta.env;
 
 const usersAxiosInstance = axios.create({
-  baseURL: `${epignosisUsersAPI}/users`,
+  baseURL: `${usersAPI}/users`,
 });
 
 const getAllUsers = () => {
